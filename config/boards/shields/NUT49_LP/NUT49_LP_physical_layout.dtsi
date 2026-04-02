@@ -1,5 +1,5 @@
 / {
-    ergo_track_physical_layout: ergo_track_physical_layout {
+    NUT49_LP_physical_layout: NUT49_LP_physical_layout {
         compatible = "zmk,physical-layout";
         display-name = "Default";
         transform = <&default_transform>;
