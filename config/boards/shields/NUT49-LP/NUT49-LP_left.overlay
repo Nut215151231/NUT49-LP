@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "ergo_track_split.dtsi"
+#include "NUT49-LP.dtsi"
 
 / {
     kscan0: kscan {
