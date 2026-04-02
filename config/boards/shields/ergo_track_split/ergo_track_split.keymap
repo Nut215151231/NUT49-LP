@@ -1,0 +1,136 @@
+/*
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 80
+#include <dt-bindings/zmk/mouse.h>
+#include <dt-bindings/zmk/pointing.h>
+
+#define BASE  0
+#define LOWER 1
+#define RAISE 2
+#define MOUSE 3
+#define FUNC  4
+#define SNIPE 5
+
+/ {
+    behaviors {
+        enc_scroll_v: enc_scroll_v {
+            compatible = "zmk,behavior-sensor-rotate";
+            label = "ENC_SCROLL_V";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
+            tap-ms = <20>;
+        };
+
+        enc_scroll_h: enc_scroll_h {
+            compatible = "zmk,behavior-sensor-rotate";
+            label = "ENC_SCROLL_H";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc SCRL_LEFT>, <&msc SCRL_RIGHT>;
+            tap-ms = <20>;
+        };
+
+        enc_page_v: enc_page_v {
+        compatible = "zmk,behavior-sensor-rotate";
+        label = "ENC_PAGE_V";
+        #sensor-binding-cells = <0>;
+        bindings = <&kp PAGE_DOWN>, <&kp PAGE_UP>;
+        tap-ms = <20>;
+        };
+
+        battery_report: battery_report {
+            compatible = "zmk,behavior-battery-led";
+            label = "BATTERY_REPORT";
+            #binding-cells = <0>;
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        func_layer {
+            if-layers = <LOWER RAISE>;
+            then-layer = <FUNC>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base_layer {
+            bindings = <
+            &kp ESC &kp ESC &kp N1 &kp N2 &kp N3 &kp N4 &kp N5        &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp LBKT &kp RBKT
+            &kp ESC &kp TAB &kp Q &kp W &kp E &kp R &kp T              &kp Y &kp U &kp I &kp O &kp P &kp MINUS &kp PLUS
+            &kp LALT &kp CAPS &kp A &kp S &kp D &kp F &kp G            &kp H &kp J &kp K &kp L &kp SEMI &kp APOS &kp RET
+                     &kp LSHFT &kp Z &kp X &kp C &kp V &kp B           &kp N &kp M &kp COMMA &kp DOT &kp FSLH &kp LBKT
+            &mo RAISE &kp LCTRL &kp LGUI &mo LOWER &kp SPACE &kp LALT &kp LALT    &kp SPACE &kp RET &kp RET &kp BACKSPACE &kp BSLH &kp DEL &mo RAISE
+            &kp RIGHT &kp UP &kp LEFT &kp DOWN &kp DOWN &mkp MCLK &mkp MCLK  &none &none &kp LEFT &kp RET &kp DOWN &kp RIGHT &kp UP
+            >;
+            sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        lower_layer {
+            bindings = <
+            &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6      &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &trans
+            &trans &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5   &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &trans &trans
+            &trans &trans &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS &kp STAR &kp LPAR &kp RPAR &trans &trans
+                   &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&enc_scroll_h &enc_page_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        raise_layer {
+            bindings = <
+            &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6        &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &trans
+            &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6        &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &trans
+            &trans &trans &bt BT_SEL 0 &kp DOWN &kp RIGHT &kp PG_DN &trans  &trans &trans &trans &trans &trans &trans &trans
+                   &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        mouse_layer {
+            bindings = <
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &mkp MCLK &mkp MCLK &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &mo SNIPE &trans     &trans &mkp LCLK &mkp RCLK &mo SNIPE &mo SNIPE &trans &trans
+                   &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        function_layer {
+            bindings = <
+            &bt BT_CLR_ALL &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &out OUT_TOG    &trans &trans &trans &trans &trans &trans &trans
+            &bt BT_CLR_ALL &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &out OUT_TOG    &trans &trans &trans &trans &trans &trans &trans
+            &out OUT_BLE &trans &trans &trans &trans &bootloader &trans       &trans &trans &trans &trans &trans &trans &trans
+                   &trans &trans &trans &trans &trans &battery_report             &trans &trans &trans &trans &trans &trans
+            &out OUT_USB &trans &trans &trans &trans &trans &trans       &trans &bt BT_PRV &trans &trans &bt BT_NXT &battery_report &trans
+            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans &trans &trans
+            >;
+            sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
+        };
+
+        snipe_layer {
+            bindings = <
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &mkp MCLK &mkp MCLK &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &mo SNIPE &trans     &trans &mkp LCLK &mkp RCLK &mo SNIPE &mo SNIPE &trans &trans
+                   &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans
+    >;
+    sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
+};
+    };
+};
