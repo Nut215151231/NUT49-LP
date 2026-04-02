@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "NUT49-LP.dtsi"
+#include "NUT49_LP.dtsi"
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <input/processors.dtsi>
 

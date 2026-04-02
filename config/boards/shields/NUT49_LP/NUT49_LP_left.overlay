@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include "NUT49-LP.dtsi"
+#include "NUT49_LP.dtsi"
 
 / {
     kscan0: kscan {
