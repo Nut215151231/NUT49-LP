@@ -1,15 +1,17 @@
-# ErgoTrack Split Keyboard
+# NUT49-LP
 
-ZMK firmware for a split ergonomic keyboard with PMW3610 trackball and rotary encoders.
+ZMK firmware for a custom split ergonomic keyboard with PMW3610 trackball and rotary encoders.
 
 ## Features
 
 - **Split design** — Left and right halves connected via Bluetooth
-- **PMW3610 trackball** on right side
-- **Rotary encoders** — Left side: 2 encoders, Right side: 1 encoder
-- **82 keys** total (6 rows × 7 columns per side, row 3 has 13 keys)
+- **PMW3610 trackball** on right side (1400 CPI)
+- **Rotary encoders** — Left: 2 encoders (horizontal/vertical scroll), Right: 1 encoder (volume)
+- **82 keys** total (6 rows × 7 columns per side, row 3 has 12 keys)
 - **ZMK Studio support** — Edit keymap in browser without reflashing
-- **nice!nano v2** compatible
+- **Auto Mouse Layer** — Mouse layer activates automatically when trackball is moved
+- **Snipe mode** — Low-speed trackball mode for precision
+- **nice!nano v2** microcontrollers
 
 ## Hardware
 
@@ -32,26 +34,62 @@ ZMK firmware for a split ergonomic keyboard with PMW3610 trackball and rotary en
 | Encoder R A/B | — | P0.02 / P0.22 |
 | SPI SCK/MOSI/MISO | — | P1.01 / P1.02 / P1.02 |
 | Trackball CS | — | P1.07 |
-| Trackball MOTION | — | P0.24 |
-| LED | P1.00 | P1.13 |
+| Trackball IRQ | — | P0.24 |
 
 ## Repository Structure
 
 ```
 config/
-├── west.yml                          # ZMK + PMW3610 driver modules
-├── build.yaml                        # Build targets (left, right, settings_reset)
-└── boards/shields/ergo_track_split/
-    ├── ergo_track_split.dtsi         # Common DTS (matrix transform, battery)
-    ├── ergo_track_split-layouts.dtsi # Physical layout for ZMK Studio
-    ├── ergo_track_split.keymap       # Keymap definition
-    ├── ergo_track_split.json         # ZMK Studio layout metadata
-    ├── ergo_track_split_left.overlay # Left hardware definition
-    ├── ergo_track_split_left.conf    # Left config (PERIPHERAL, ZMK Studio)
-    ├── ergo_track_split_right.overlay# Right hardware definition + trackball
-    ├── ergo_track_split_right.conf   # Right config (CENTRAL, PMW3610)
+├── west.yml                           # ZMK + PMW3610 driver modules
+├── build.yaml                         # Build targets (left, right, settings_reset)
+└── boards/shields/NUT49_LP/
+    ├── NUT49_LP.dtsi                  # Common DTS (matrix transform, encoders)
+    ├── NUT49_LP_layouts.dtsi          # Physical layout definition
+    ├── NUT49_LP_physical_layout.dtsi  # Key coordinates for ZMK Studio
+    ├── NUT49_LP.keymap                # Keymap definition
+    ├── NUT49_LP.json                  # KLE layout JSON
+    ├── NUT49_LP_left.overlay          # Left hardware (kscan, encoders)
+    ├── NUT49_LP_left.conf             # Left config (PERIPHERAL)
+    ├── NUT49_LP_right.overlay         # Right hardware (kscan, trackball, encoder)
+    ├── NUT49_LP_right.conf            # Right config (CENTRAL, ZMK Studio)
     ├── Kconfig.shield
     └── Kconfig.defconfig
+```
+
+## Keymap Layers
+
+| Layer | Activation | Description |
+|---|---|---|
+| 0 BASE | Default | Main typing layer |
+| 1 LOWER | Hold Lower key | Numbers, symbols, F keys |
+| 2 RAISE | Hold Raise key | Navigation, symbols |
+| 3 MOUSE | Auto (trackball) | Mouse buttons, snipe |
+| 4 FUNC | LOWER + RAISE | BT, USB, system |
+| 5 SNIPE | Hold M in MOUSE | Low-speed trackball |
+
+## Encoder Bindings
+
+| Encoder | Default | LOWER layer |
+|---|---|---|
+| Left 1 (horizontal) | Horizontal scroll | Horizontal scroll |
+| Left 2 (vertical) | Vertical scroll | Page Up/Down |
+| Right | Volume Up/Down | Volume Up/Down |
+
+## Trackball
+
+- Sensor: PMW3610
+- Driver: [badjeff/zmk-pmw3610-driver](https://github.com/badjeff/zmk-pmw3610-driver)
+- CPI: 1400
+- Auto Mouse Layer: activates on movement, exits after 1 second idle
+- AML misfire prevention: `require-prior-idle-ms = <200>` (no AML within 200ms of keypress)
+- Snipe mode: hold M key in MOUSE layer for reduced speed
+
+To adjust CPI, edit `NUT49_LP_right.overlay`:
+
+```c
+trackball: trackball@0 {
+    cpi = <1400>;
+};
 ```
 
 ## Build
@@ -61,100 +99,39 @@ config/
 Push to `main` branch to trigger automatic build. Download firmware from the Actions artifacts.
 
 Three artifacts are produced:
-- `ergo_track_split_left-nice_nano-zmk.uf2`
-- `ergo_track_split_right-nice_nano-zmk.uf2`
-- `settings_reset-nice_nano-zmk.uf2`
+- `NUT49_LP_left-nice_nano_v2-zmk.uf2`
+- `NUT49_LP_right-nice_nano_v2-zmk.uf2`
+- `settings_reset-nice_nano_v2-zmk.uf2`
 
 ### Local build
 
 ```bash
 west init -l config/
 west update
-west build -d build/left -b nice_nano -- -DSHIELD=ergo_track_split_left -DSNIPPET=studio-rpc-usb-uart
-west build -d build/right -b nice_nano -- -DSHIELD=ergo_track_split_right
+west build -d build/right -b nice_nano_v2 -- -DSHIELD=NUT49_LP_right -DSNIPPET=studio-rpc-usb-uart
+west build -d build/left -b nice_nano_v2 -- -DSHIELD=NUT49_LP_left
 ```
 
 ## Flashing
 
-1. Double-tap reset on nice!nano to enter bootloader
-2. Drag and drop the `.uf2` file onto the mounted drive
-3. Flash left side first, then right side
+1. Double-tap reset on nice!nano v2 to enter bootloader (NICENANO drive appears)
+2. Drag and drop the `.uf2` file onto the drive
+3. Flash right side (CENTRAL) first, then left side
 
 ## ZMK Studio
 
 Edit your keymap in the browser without reflashing.
 
-1. Connect keyboard via USB
+1. Connect right side (CENTRAL) via USB
 2. Open [zmk.studio](https://zmk.studio/) in Chrome or Edge
 3. Select the keyboard and start editing
 
-> ZMK Studio works over USB only, not Bluetooth.
+> ZMK Studio works over USB only. Encoder bindings cannot be edited via ZMK Studio.
 
-## Trackball
+## Dependencies
 
-- Sensor: PMW3610, 1600 CPI
-- Driver: [badjeff/zmk-pmw3610-driver](https://github.com/badjeff/zmk-pmw3610-driver)
-
-To adjust CPI, edit `ergo_track_split_right.overlay`:
-
-```c
-trackball: trackball@0 {
-    res-cpi = <1600>;  // 400, 800, 1200, or 1600
-};
-```
-
-## What Changed to Fix the Build
-
-The following issues were causing `devicetree error: lacks #sensor-binding-cells`:
-
-### 1. Added `#sensor-binding-cells = <0>` to encoder nodes
-
-All EC11 encoder nodes in both overlays were missing this required property.
-
-```c
-// Before — missing property caused DTS parser to misidentify
-//          uart0_default as a sensor node
-left_encoder_1: encoder_left_1 {
-    compatible = "alps,ec11";
-    ...
-};
-
-// After — property added to all encoder nodes
-left_encoder_1: encoder_left_1 {
-    compatible = "alps,ec11";
-    ...
-    #sensor-binding-cells = <0>;
-};
-```
-
-### 2. Removed keymap headers from right overlay
-
-`ergo_track_split_right.overlay` had unnecessary includes intended for keymap files, which confused the DTS parser:
-
-```c
-// Removed from right overlay:
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/mouse.h>
-#include <dt-bindings/zmk/outputs.h>
-```
-
-### 3. Added PMW3610 driver to `west.yml`
-
-The PMW3610 driver is not included in ZMK core. Without this, the right side build fails with a missing driver error.
-
-```yaml
-# Added to west.yml
-- name: zmk-pmw3610-driver
-  remote: badjeff
-  revision: main
-```
-
-## Credits
-
+- ZMK: [zmkfirmware/zmk](https://github.com/zmkfirmware/zmk) @ `v0.3-branch`
 - PMW3610 driver: [badjeff/zmk-pmw3610-driver](https://github.com/badjeff/zmk-pmw3610-driver)
-- ZMK Firmware: [zmkfirmware/zmk](https://github.com/zmkfirmware/zmk)
 
 ## License
 
