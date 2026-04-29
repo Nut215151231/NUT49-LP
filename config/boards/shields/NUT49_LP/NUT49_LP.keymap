@@ -61,7 +61,7 @@
                     &kp CAPS &kp A &kp S &kp D &kp F &kp G             &kp H &kp J &kp K &kp L &kp SEMI &kp APOS &kp RET
                     &kp LSHFT &kp Z &kp X &kp C &kp V &kp B            &kp N &kp M &kp COMMA &kp DOT &kp FSLH &kp RSHFT
             &mo RAISE &kp LCTRL &kp LGUI &mo LOWER &kp SPACE           &kp SPACE &kp RET &kp BACKSPACE &kp BSLH &kp DEL
-            &kp RIGHT &kp UP &kp LEFT &kp DOWN &kp DOWN &mkp MCLK &mkp MCLK  &none &kp LEFT &kp RET &kp DOWN &kp RIGHT &kp UP
+            &kp RIGHT &kp UP &kp LEFT &kp DOWN &kp DOWN &mkp MCLK &mkp MCLK  &kp LEFT &kp RET &kp DOWN &kp RIGHT &kp UP
             >;
             sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -72,7 +72,7 @@
                    &trans &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT &kp CARET &kp AMPS &kp STAR &kp LPAR &kp RPAR &trans &trans
                    &trans &trans &trans &trans &trans &trans            &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans                          &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans            &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans            &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&enc_scroll_h &enc_page_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -83,7 +83,7 @@
                    &trans &kp HOME &kp UP &kp END &kp PG_UP &trans      &trans &trans &trans &trans &trans &trans &trans
                    &trans &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &trans  &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans                           &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -94,7 +94,7 @@
                    &trans &trans &trans &trans &mo SNIPE &trans          &trans &mkp LCLK &mkp RCLK &mo SNIPE &mo SNIPE &trans &trans
                    &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans                           &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -105,7 +105,7 @@
                    &out OUT_BLE &trans &trans &trans &bootloader &trans           &trans &trans &trans &trans &trans &trans &trans
                    &trans &trans &trans &trans &trans &trans                      &trans &trans &trans &trans &trans &trans
             &out OUT_USB &trans &trans &trans &trans                              &trans &bt BT_PRV &trans &bt BT_NXT &trans
-            &trans &trans &trans &trans &trans &trans &trans                      &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans                      &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -116,7 +116,7 @@
                    &trans &trans &trans &trans &mo SNIPE &trans          &trans &mkp LCLK &mkp RCLK &mo SNIPE &mo SNIPE &trans &trans
                    &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans                           &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
