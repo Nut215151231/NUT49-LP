@@ -56,11 +56,11 @@
         compatible = "zmk,keymap";
 
         base_layer {
-            bindings = <
+            bindings = 
             &kp ESC &kp TAB &kp Q &kp W &kp E &kp R &kp T              &kp Y &kp U &kp I &kp O &kp P &kp MINUS &kp EQUAL
                     &kp CAPS &kp A &kp S &kp D &kp F &kp G             &kp H &kp J &kp K &kp L &kp SEMI &kp APOS &kp RET
                     &kp LSHFT &kp Z &kp X &kp C &kp V &kp B            &kp N &kp M &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-            &mo RAISE &kp LCTRL &kp LGUI &mo LOWER &kp SPACE           &kp SPACE &kp RET &kp BACKSPACE &kp BSLH &kp DEL
+            &mo RAISE &kp LCTRL &kp LGUI &mo LOWER &kp SPACE           &kp RET &kp BACKSPACE &kp BSLH &kp DEL &kp LALT
             &kp LS(LG(RIGHT)) &kp LS(LG(S)) &kp LS(LG(LEFT)) &kp LALT &kp LALT &mkp MCLK &mkp MCLK  &kp LEFT &kp RET &kp DOWN &kp RIGHT &kp UP
             >;
             sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -78,12 +78,12 @@
         };
 
         raise_layer {
-            bindings = <
-            &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6          &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &trans
-                   &trans &kp HOME &kp UP &kp END &kp PG_UP &trans      &trans &trans &trans &trans &trans &trans &trans
-                   &trans &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &trans  &trans &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans                           &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans             &trans &trans &trans &trans &trans
+            bindings = 
+            &trans &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5        &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
+                &trans &kp HOME &kp UP &kp END &kp PG_UP &trans   &trans &trans &trans &trans &trans &trans &trans
+                &trans &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans                       &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans         &trans &trans &trans &trans &trans
             >;
             sensor-bindings = <&enc_scroll_h &enc_scroll_v &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
@@ -100,10 +100,10 @@
         };
 
         function_layer {
-            bindings = <
-            &bt BT_CLR_ALL &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &out OUT_TOG    &trans &trans &trans &trans &trans &trans &trans
-                   &out OUT_BLE &trans &trans &trans &bootloader &trans           &trans &trans &trans &trans &trans &trans &trans
-                   &trans &trans &trans &trans &trans &trans                      &trans &trans &trans &trans &trans &trans
+            bindings = 
+            &bt BT_CLR_ALL &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &out OUT_TOG    &trans &trans &trans &kp LPAR &kp RPAR &trans &trans
+                &out OUT_BLE &trans &trans &trans &bootloader &trans           &trans &trans &trans &trans &kp LBKT &kp RBKT &trans
+                &trans &trans &trans &trans &trans &trans                      &trans &trans &trans &kp LBRC &kp RBRC &trans
             &out OUT_USB &trans &trans &trans &trans                              &trans &bt BT_PRV &trans &bt BT_NXT &trans
             &trans &trans &trans &trans &trans &trans &trans                      &trans &trans &trans &trans &trans
             >;
